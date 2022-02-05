@@ -6,6 +6,7 @@ import pyautogui as auto
 from python_imagesearch.imagesearch import imagesearch as search
 import time
 from printy import printy
+from operator import sub
 
 pkg_resources.require("PyAutoGUI==0.9.50")
 pkg_resources.require("opencv-python==4.5.1.48")
@@ -55,38 +56,39 @@ def click_to(path, delay=.1):
 def queue():
     if onscreen("./captures/tft logo.png"):
         click_to("./captures/find match ready.png")
+    if onscreen("./captures/ingame.png"):
+        print("already ingame")
+        main()
     while not onscreen("./captures/loading.png"):
         time.sleep(1)
         click_to("./captures/accept.png")
-
-    print("Loading!")
-    loading()
-
-
-def loading():
-    while not onscreen("./captures/1-1.png"):
-        time.sleep(1)
-
-    print("Match starting!")
-    start()
-
-
-def start():
-    while onscreen("./captures/1-1.png"):
-        auto.moveTo(888, 376)
-        click_right()
-
     print("In the match now!")
     main()
 
-
-def buy(iterations):
-    for i in range(iterations):
-        click_to("./captures/chemtech.png")
-        click_to("./captures/scrap.png")
-
     
 def checks():  # checks to see if game was interrupted
+    if onscreen("./captures/1-1.png"):
+        print("Round 1-1")
+    if onscreen("./captures/2-2.png"):
+        print("Round 2-2")
+    if onscreen("./captures/2-4.png"):
+        print("Round 2-4")
+    if onscreen("./captures/2-5.png"):
+        print("Round 2-5")
+    if onscreen("./captures/3-1.png"): # change this if you want to surrender at a different stage, also the image recognition struggles with 5 being it sees it as 3 so i had to do 6 as that's seen as a 5
+        print("Round 3-1")
+    if onscreen("./captures/3-2.png"):
+        print("Round 2-2")
+    if onscreen("./captures/3-4.png"):
+        print("Round 3-4")
+        print("Surrendering now!")
+        surrender()
+    if onscreen("./captures/3-7.png"):
+        print("Round 3-7")
+        print("Surrendering now!")
+        surrender()
+
+
     if onscreen("./captures/play again.png"):
         won_match()
     if onscreen("./captures/dead.PNG"):  # check for loss
@@ -97,27 +99,14 @@ def checks():  # checks to see if game was interrupted
         time.sleep(0.5)
         click_to("./captures/reconnect.png")
 
-
 def main():
-    while not onscreen("./captures/2-4.png"):
-        buy(5)
-        time.sleep(1)
+    while True:
+        gamestate()
+        
+        time.sleep(5)
         checks() 
-    while onscreen("./captures/2-4.png"):
-        auto.moveTo(928, 396)
-        click_right()
-        time.sleep(0.25)
 
-    time.sleep(5)
 
-    if onscreen("./captures/2-5.png"):
-        while not onscreen("./captures/3-1.png"):  # change this if you want to surrender at a different stage, also the image recognition struggles with 5 being it sees it as 3 so i had to do 6 as that's seen as a 5
-            buy(5)
-            click_to("./captures/reroll.png")
-            time.sleep(1)
-            checks() 
-        print("Surrendering now!")
-        surrender()
 
 
 def end_match():
@@ -144,7 +133,7 @@ def won_match():
     
 def surrender():
     click_to("./captures/settings.png")
-
+    time.sleep(1)
     while not onscreen("./captures/surrender 1.png"):
         click_to("./captures/settings.png")  # just in case it gets interrupted or misses
         time.sleep(1)
