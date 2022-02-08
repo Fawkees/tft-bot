@@ -8,6 +8,8 @@ import time
 from printy import printy
 from python_imagesearch.imagesearch import imagesearch_count as count
 from operator import sub
+import Rank
+from collections import namedtuple
 
 print(count)
 pkg_resources.require("PyAutoGUI==0.9.50")
@@ -52,69 +54,21 @@ def click_to(path, delay=.1):
         click_left(delay)
 # End utility methods
 
+
+
 def myrank():
-    pos = search("./captures/MyPosition.png")
-    ref = search("./captures/settings.png")
-    abspos = tuple(map(sub, ref, pos))
-    if abspos == (54, 668):
-        #print("1st")
-        return 8
-    if abspos == (54, 596):
-        #print("2nd")
-        return 7
-    if abspos == (54, 524):
-        #print("3rd")
-        return 6
-    if abspos == (54, 452):
-        #print("4th")
-        return 5
-    if abspos == (54, 380):
-        #print("5th")
-        return 4
-    if abspos == (54, 308):
-        #print("6th")
-        return 3
-    if abspos == (54, 236):
-        #print("7th")
-        return 2
-    if abspos == (54, 164):
-        #print("8th")
-        return 1
-    else:
-        return 0
-def myranking():
-    pos = search("./captures/MyRanking.png")
-    ref = search("./captures/play again.png")
-    abspos = tuple(map(sub, ref, pos))
-    print (abspos)
-    if abspos == (473, 661):
-        print("1st")
-        return 8
-    if abspos == (473, 587):
-        print("2nd")
-        return 8
-    if abspos == (473, 513): #
-        print("3rd")
-        return 6
-    if abspos == (473, 439):
-        print("4th")
-        return 6
-    if abspos == (473, 365): #
-        print("5th")
-        return 4
-    if abspos == (473, 291):
-        print("6th")
-        return 4
-    if abspos == (473, 218): #
-        print("7th")
-        return 2
-    if abspos == (473, 144):
-        print("8th")
-        return 2
-    else:
-        return 0              
+    position = search("./captures/MyPosition.png")
+    reference = search("./captures/settings.png")
+    return Rank.ingame(position, reference)
+
+def place():
+    position = search("./captures/MyRanking.png")
+    reference = search("./captures/play again.png")
+    return Rank.postgame(position, reference)
+      
 # Start main process
 def main():
+    
     tokens = 0
     surrenderflag = False
     while True:
@@ -131,15 +85,13 @@ def main():
             #print(count("./captures/zero hp.png"))
             #myrank()
             
-            if surrenderflag == True:
+            if not surrenderflag == True:
                 zeros = count("./captures/zero hp.png")
                 rank = myrank();
                 if ((rank - zeros) == 1) and onscreen("./captures/lose streak.PNG"):    #Surrender when last and lose streak
                     surrender()
                 if zeros == 6:                                                          #Surrender when  2 place
-                    surrender()
-                                        
-                    
+                    surrender()          
             time.sleep(10)
             
         else:
@@ -155,11 +107,13 @@ def main():
             if onscreen("./captures/missions ok.png"):
                 click_to("./captures/missions ok.png")
             if onscreen("./captures/play again.png"):
-                tokens += myranking()
+                tokens += place()
                 print("Tokens farmed  this session:", tokens)
                 click_to("./captures/play again.png")
             if onscreen("./captures/skip waiting for stats.png"):
                 click_to("./captures/skip waiting for stats.png")
+                                                   
+            #myrank()     
             time.sleep(5)
 
 
