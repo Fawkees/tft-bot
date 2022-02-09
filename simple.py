@@ -81,9 +81,6 @@ def main():
                 click_to("./captures/dead.PNG")     
             if onscreen("./captures/3-4.png"):
                 surrenderflag = True
-                
-            #print(count("./captures/zero hp.png"))
-            #myrank()
             
             if not surrenderflag == True:
                 zeros = count("./captures/zero hp.png")
@@ -95,8 +92,6 @@ def main():
             time.sleep(10)
             
         else:
-            #if onscreen("./captures/tft logo.png"):
-                #print("In Queue!")
             if onscreen("./captures/find match ready.png"):
                 click_to("./captures/find match ready.png")
                 surrenderflag = False
@@ -111,25 +106,26 @@ def main():
                 print("Tokens farmed  this session:", tokens)
                 click_to("./captures/play again.png")
             if onscreen("./captures/skip waiting for stats.png"):
-                click_to("./captures/skip waiting for stats.png")
-                                                   
-            #myrank()     
+                click_to("./captures/skip waiting for stats.png")  
             time.sleep(5)
 
 
     
 def surrender():
-    click_to("./captures/settings.png")
-    time.sleep(1)
-    while not onscreen("./captures/surrender 1.png"):
-        click_to("./captures/settings.png")  # just in case it gets interrupted or misses
+    if auto.confirm("Surrender?", timeout=5000) == "OK":
+        click_to("./captures/settings.png")
         time.sleep(1)
-    while not onscreen("./captures/surrender 2.png"):
-        click_to("./captures/surrender 1.png")
+        while not onscreen("./captures/surrender 1.png"):
+            click_to("./captures/settings.png")  # just in case it gets interrupted or misses
+            time.sleep(1)
+        while not onscreen("./captures/surrender 2.png"):
+            click_to("./captures/surrender 1.png")
 
-    time.sleep(1)
-    click_to("./captures/surrender 2.png")
-    time.sleep(10)
+        time.sleep(1)
+        click_to("./captures/surrender 2.png")
+        time.sleep(10)
+    else:
+        surrenderflag = False
 
 # End main process
 
@@ -149,7 +145,7 @@ printy(r"""
 [c>]   / ____/___ __      __/ /_____  _____@
 [c>]  / /_  / __ `/ | /| / / //_/ _ \/ ___/@
 [c>] / __/ / /_/ /| |/ |/ / ,< /  __(__  ) @
-[c>]/_/    \__,_/ |__/|__/_/|_|\___/____/   @                                
+[c>]/_/    \__,_/ |__/|__/_/|_|\___/____/  @                                
 [c>] ____   __    _       _     ____  ____  __  @
 [c>]| |_   / /\  \ \    /| |_/ | |_  | |_  ( (` @
 [c>]|_|   /_/--\  \_\/\/ |_| \ |_|__ |_|__ _)_) @

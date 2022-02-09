@@ -1,6 +1,7 @@
 from collections import namedtuple
 
 Coord = namedtuple("Coord", "x y")
+
 One = Coord(54, 668)
 Two = Coord(54, 596)
 Three = Coord(54, 524)
@@ -9,6 +10,7 @@ Five = Coord(54, 380)
 Six = Coord(54, 308)
 Seven = Coord(54, 236)
 Eight = Coord(54, 164)
+
 First = Coord(473, 661)
 Second = Coord(473, 587)
 Third = Coord(473, 513)
@@ -17,8 +19,8 @@ Fifth = Coord(473, 365)
 Sixth = Coord(473, 291)
 Seventh = Coord(473, 218)
 Eightth = Coord(473, 144)
-margin = 20
 
+margin = 20
 
 def ingame(position, reference):
     abspos = Coord(reference[0]-position[0], reference[1]-position[1])
