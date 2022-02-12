@@ -7,9 +7,7 @@ from python_imagesearch.imagesearch import imagesearch as search
 import time
 from printy import printy
 from python_imagesearch.imagesearch import imagesearch_count as count
-from operator import sub
 import Rank
-from collections import namedtuple
 
 print(count)
 pkg_resources.require("PyAutoGUI==0.9.50")
@@ -82,7 +80,7 @@ def main():
             if onscreen("./captures/3-4.png"):
                 surrenderflag = True
             
-            if not surrenderflag == True:
+            if  surrenderflag == True:
                 zeros = count("./captures/zero hp.png")
                 rank = myrank();
                 if ((rank - zeros) == 1) and onscreen("./captures/lose streak.PNG"):    #Surrender when last and lose streak
@@ -112,7 +110,9 @@ def main():
 
     
 def surrender():
-    if auto.confirm("Surrender?", timeout=5000) == "OK":
+    if auto.confirm("Surrender?", timeout=5000) == "Cancel":
+        surrenderflag = False
+    else:
         click_to("./captures/settings.png")
         time.sleep(1)
         while not onscreen("./captures/surrender 1.png"):
@@ -123,9 +123,7 @@ def surrender():
 
         time.sleep(1)
         click_to("./captures/surrender 2.png")
-        time.sleep(10)
-    else:
-        surrenderflag = False
+        time.sleep(10) 
 
 # End main process
 
@@ -152,7 +150,7 @@ printy(r"""
 [c>]@
 [c>]____ ____ _ _ _ _  _ ____ ____ ____ @
 [c>]|___ |__| | | | |_/  |___ |___ [__  @
-[c>]|    |  | |_|_| | \_ |___ |___ ___]  @                                  
+[c>]|    |  | |_|_| | \_ |___ |___ ___] @                                  
 [c>]   ____            __         @
 [c>]  / __/__ __    __/ /_____ ___@
 [c>] / _// _ `/ |/|/ /  '_/ -_|_-<@
